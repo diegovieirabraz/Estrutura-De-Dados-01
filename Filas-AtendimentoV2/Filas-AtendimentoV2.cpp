@@ -53,17 +53,17 @@ struct FilaPtr {
 
 FilaPtr* initFilaPtr() {
     FilaPtr* f = new FilaPtr();
-    f->inicio = f->fim = NULL; // MODIFICADO
+    f->inicio = f->fim = NULL; 
     f->qtd = 0;
     return f;
 }
 
-bool isEmptyPtr(FilaPtr* f) { return f->inicio == NULL; } // MODIFICADO
+bool isEmptyPtr(FilaPtr* f) { return f->inicio == NULL; } 
 
 bool enfileirarPtr(FilaPtr* f, int valor) {
     Node* novo = new Node();
     novo->valor = valor;
-    novo->prox = NULL; // MODIFICADO
+    novo->prox = NULL; 
     if (isEmptyPtr(f)) {
         f->inicio = f->fim = novo;
     } else {
@@ -79,7 +79,7 @@ int desenfileirarPtr(FilaPtr* f) {
     Node* temp = f->inicio;
     int valor = temp->valor;
     f->inicio = temp->prox;
-    if (f->inicio == NULL) f->fim = NULL; // MODIFICADO
+    if (f->inicio == NULL) f->fim = NULL; 
     delete temp;
     f->qtd--;
     return valor;
@@ -100,17 +100,17 @@ struct ListaGuiches {
 
 ListaGuiches* initListaGuiches() {
     ListaGuiches* l = new ListaGuiches();
-    l->inicio = NULL; // MODIFICADO
+    l->inicio = NULL; 
     l->qtd = 0;
     return l;
 }
 
 void adicionarGuiche(ListaGuiches* l, Guiche* novoGuiche) {
-    if (l->inicio == NULL) { // MODIFICADO
+    if (l->inicio == NULL) { 
         l->inicio = novoGuiche;
     } else {
         Guiche* atual = l->inicio;
-        while (atual->prox != NULL) { // MODIFICADO
+        while (atual->prox != NULL) { 
             atual = atual->prox;
         }
         atual->prox = novoGuiche;
@@ -120,13 +120,13 @@ void adicionarGuiche(ListaGuiches* l, Guiche* novoGuiche) {
 
 Guiche* buscarGuiche(ListaGuiches* l, int id) {
     Guiche* atual = l->inicio;
-    while (atual != NULL) { // MODIFICADO
+    while (atual != NULL) { 
         if (atual->id == id) {
             return atual;
         }
         atual = atual->prox;
     }
-    return NULL; // MODIFICADO
+    return NULL; 
 }
 
 int tamanhoListaGuiches(ListaGuiches* l) { return l->qtd; }
@@ -167,7 +167,7 @@ int main() {
                 Guiche* novoGuiche = new Guiche();
                 novoGuiche->id = proximoGuicheId;
                 novoGuiche->senhasAtendidas = initFilaPtr();
-                novoGuiche->prox = NULL; // MODIFICADO
+                novoGuiche->prox = NULL; 
 
                 adicionarGuiche(guichesAbertos, novoGuiche);
                 cout << ">>> Guiche " << proximoGuicheId << " aberto para atendimento.\n";
@@ -189,7 +189,7 @@ int main() {
                 cin >> idGuiche;
 
                 Guiche* guiche = buscarGuiche(guichesAbertos, idGuiche);
-                if (guiche != NULL) { // MODIFICADO
+                if (guiche != NULL) { 
                     int senha = desenfileirarVetor(senhasGeradas);
                     enfileirarPtr(guiche->senhasAtendidas, senha);
                     cout << ">>> Guiche " << idGuiche << " atendendo a senha: " << senha << "\n";
@@ -208,13 +208,13 @@ int main() {
                 cin >> idGuiche;
 
                 Guiche* guiche = buscarGuiche(guichesAbertos, idGuiche);
-                if (guiche != NULL) { // MODIFICADO
+                if (guiche != NULL) { 
                     cout << "--- Senhas atendidas pelo Guiche " << idGuiche << " ---\n";
                     if (isEmptyPtr(guiche->senhasAtendidas)) {
                         cout << "Nenhuma senha atendida por este guiche ainda.\n";
                     } else {
                         Node* atual = guiche->senhasAtendidas->inicio;
-                        while (atual != NULL) { // MODIFICADO
+                        while (atual != NULL) { 
                             cout << "Senha: " << atual->valor << "\n";
                             atual = atual->prox;
                         }
@@ -233,7 +233,7 @@ int main() {
                 } else {
                     int totalAtendido = 0;
                     Guiche* atual = guichesAbertos->inicio;
-                    while (atual != NULL) { // MODIFICADO
+                    while (atual != NULL) { 
                         totalAtendido += tamanhoPtr(atual->senhasAtendidas);
                         atual = atual->prox;
                     }
@@ -248,9 +248,9 @@ int main() {
     
     delete senhasGeradas;
     Guiche* atual = guichesAbertos->inicio;
-    while(atual != NULL) { // MODIFICADO
+    while(atual != NULL) { 
         Guiche* proximo = atual->prox;
-        // Desenfileirar todos os nós da fila de ponteiros para evitar vazamento de memória
+        
         while(!isEmptyPtr(atual->senhasAtendidas)){
             desenfileirarPtr(atual->senhasAtendidas);
         }
